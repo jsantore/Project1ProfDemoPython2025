@@ -48,7 +48,7 @@ def get_job_description() -> str:
              Enjoy working with a diverse group of people with different backgrounds and expertise"""
 
 
-def get_contact_info()->str:
+def get_contact_info() -> str:
     # again for a later sprint I would get this from a data source, but just hard coded for now
     return """
     John F. Santore, Ph.D
@@ -58,7 +58,8 @@ Bridgewater State University
 jsantore@bridgew.edu
     """
 
-def get_skills()->str:
+
+def get_skills() -> str:
     # same caveat as get_contact_info above
     return """
     git
@@ -72,16 +73,21 @@ def get_skills()->str:
     lisp
     java
     SQL
+    postgresql
+    sqlite3
     """
 
-def get_constraints()->str:
+
+def get_constraints() -> str:
     return """
     give me only the resume in markdown format without any additional notes or extra cruft
     Use only skills and projects listed in the prompt - don't add any
     omit skills and projects that don't support this job description.
+
     """
 
-def get_education()->str:
+
+def get_education() -> str:
     # again hard coded for sprint1
     return """
     BA in Cognitive Science from University of Rochester
@@ -89,7 +95,8 @@ def get_education()->str:
     Ph.D in Computer Science from University at Buffalo
     """
 
-def get_experience()->str:
+
+def get_experience() -> str:
     return """
     DownEast Technology (3 years)
     team delivered an app for sales people to enter, track and synch full spectrum sales data, saving it both locally
@@ -104,30 +111,81 @@ def get_experience()->str:
     WheresMyJob.com (3 years)
     Delivered an application that pulled data from jobs APIs and displayed them on a map, displaying full data when 
     a job was selected by the user. Users filter jobs to not be overwhelmed. App written using python, pandas, plotly, dash,
-    geopy, requests and postgress database. AI integration helps users auto generate resumes from a set of skills and a 
+    geopy, requests and postgresql database. AI integration helps users auto generate resumes from a set of skills and a 
     selected job.
     
     """
 
-def google_generate_resume(job_desc:str, contact_info:str, skills:str, education:str, constraints:str, experience:str):
+def get_references() -> str:
+    return """
+    Dr. Seikyung Jung (Long Time colleague and team member at Wheresmyjob, She can speak to my ability to work with team 
+    members who go from peer to supervisor. She succeeded me as team lead.)
+    sjung@bridgew.edu
+
+
+Dr. Enping Li (junior colleage at wheresmyjob for the last 3 years, she can speak on my ability to work with and mentor 
+junior team members)
+eli@bridgew.edu
+
+
+Dr, Pallavi Mathew (former colleague at Weston Books and meetup cohost.)
+Pallavi@WestonBooks.com
+    """
+
+def get_service()->str:
+    # same caveat as above
+    return """
+    Meetup cohost:
+    organized golang meetup for Providence RI. Arranged venue, organized speakers and worked with co-host and members
+    to keep the meetup viable
+    
+    K-12 outreach:
+    worked with local University on an initiative that brought middle school girls from a school that pulled 100% of its 
+    students from inner city residents of disadvantaged backgrounds to campus for a series of hands on seminars in STEM. 
+    The purpose was to both introduce these middle school students to the University, and get them to see themselves at 
+    the University, expanding opportunities.
+    """
+
+def google_generate_resume(
+    job_desc: str,
+    contact_info: str,
+    skills: str,
+    education: str,
+    constraints: str,
+    experience: str,
+        service: str,
+        refs:str
+):
     # this original code came from the google api docs before I marked it up.
     client = genai.Client(api_key=api_secrets.gemini_api_key)
     prompt = f"""build a markdown resume for a job with the following description: {job_desc}
     for an applicant with the following contact info: {contact_info} and skills: {skills}
-    the following education {education} and constraints {constraints}
+    the following education {education}, and the following professional work experience{experience} 
+    the following professional service {service}
+    and these professional references {refs}
+    and constraints {constraints}
 """
     response = client.models.generate_content(
         model="gemini-2.0-flash",
         contents=prompt,
     )
     print(response.text)  # for debugging purposes only
-    with open('resume.md','w') as file:
-        file.write(response.text)
+    with open("resume.md", "w") as file:
+        file.write(response.text[9:-3])
 
 
 def main():
-    google_generate_resume(get_job_description(), get_contact_info(), get_skills(),get_education(), get_constraints(),get_experience())
+    google_generate_resume(
+        get_job_description(),
+        get_contact_info(),
+        get_skills(),
+        get_education(),
+        get_constraints(),
+        get_experience(),
+        get_service(),
+        get_references()
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
