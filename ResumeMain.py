@@ -116,6 +116,7 @@ def get_experience() -> str:
     
     """
 
+
 def get_references() -> str:
     return """
     Dr. Seikyung Jung (Long Time colleague and team member at Wheresmyjob, She can speak to my ability to work with team 
@@ -132,7 +133,8 @@ Dr, Pallavi Mathew (former colleague at Weston Books and meetup cohost.)
 Pallavi@WestonBooks.com
     """
 
-def get_service()->str:
+
+def get_service() -> str:
     # same caveat as above
     return """
     Meetup cohost:
@@ -146,6 +148,7 @@ def get_service()->str:
     the University, expanding opportunities.
     """
 
+
 def google_generate_resume(
     job_desc: str,
     contact_info: str,
@@ -153,8 +156,8 @@ def google_generate_resume(
     education: str,
     constraints: str,
     experience: str,
-        service: str,
-        refs:str
+    service: str,
+    refs: str,
 ):
     # this original code came from the google api docs before I marked it up.
     client = genai.Client(api_key=api_secrets.gemini_api_key)
@@ -183,7 +186,7 @@ def main():
         get_constraints(),
         get_experience(),
         get_service(),
-        get_references()
+        get_references(),
     )
 
 
