@@ -175,7 +175,7 @@ def google_generate_resume(
     )
     print(response.text)  # for debugging purposes only
     with open("resume.md", "w") as file:
-        file.write(response.text[9:-3])
+        file.write(response.text[9:-3])  # remove cruft and keep only the markdown
 
 
 def main():
