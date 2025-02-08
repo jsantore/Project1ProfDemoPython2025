@@ -9,7 +9,7 @@ def get_job_description() -> str:
      (5 year experience, remote)**\n
      About us: Be part of our future! This job posting builds our talent pool for potential future openings. We'll
      compare your skills and experience against both current and future needs. If there's a match, we'll contact you directly.
-      No guarantee of immediate placement, and we only consider applications from US/Canada residents during the application 
+      No guarantee of immediate placement, and we only consider applications from US/Canada residents during the application
       process.
       Hiring Type: Full\\-Time\n   \n\n  \n\n Base Salary: $100K\\-$120K Per Annum
        Candidates must be authorized to work in the United States full\\-time. We are not able to sponsor applicants for
