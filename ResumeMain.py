@@ -9,16 +9,17 @@ def get_job_description() -> str:
      (5 year experience, remote)**\n
      About us: Be part of our future! This job posting builds our talent pool for potential future openings. We'll
      compare your skills and experience against both current and future needs. If there's a match, we'll contact you directly.
-      No guarantee of immediate placement, and we only consider applications from US/Canada residents during the application process.
+      No guarantee of immediate placement, and we only consider applications from US/Canada residents during the application 
+      process.
       Hiring Type: Full\\-Time\n   \n\n  \n\n Base Salary: $100K\\-$120K Per Annum
        Candidates must be authorized to work in the United States full\\-time. We are not able to sponsor applicants for
         work visas at this time.\n   \n\n  \n\n Benefits:\n   \n\n  \n\n* We offer health benefits and generous PTO
         packages.\n* Our office is dog friendly, has unlimited snacks \\& drinks, flexible working hours (get out for
-        the pow day!), and lots of rock climbing \\& skateboarding.\n* We offer competitive healthcare benefits and a 
+        the pow day!), and lots of rock climbing \\& skateboarding.\n* We offer competitive healthcare benefits and a
         401k program.\n* we are committed to being a fun, groundbreaking, and inclusive place to work. We strongly encourage
          engineers from all community and traditionally underrepresented backgrounds to apply\n\n\n**About The Role**\n
-         We\u2019re looking for people with a strong technical background and a passion for building products, not just features.
-           \n\n  \n\n This is not a management but a full time hands\\-on position: you will spend the majority of your time coding.
+We\u2019re looking for people with a strong technical background and a passion for building products, not just features.
+        This is not a management but a full time hands\\-on position: you will spend the majority of your time coding.
               \n\n  \n\n As an engineer at Team Remotely , you will:\n   \n\n  \n\n Design, build and maintain Team Remotely
               products, services and features\n   \n\n  \n\n Write technical design docs and customer\\-facing documentation
                 \n\n  \n\n Carry out code reviews\n   \n\n  \n\n Address customer issues\n
@@ -102,24 +103,24 @@ def get_experience() -> str:
     team delivered an app for sales people to enter, track and synch full spectrum sales data, saving it both locally
     in the sales persons device and synching it to the company so that nothing is lost and multiple sales people working
     the same lead don't waste time covering the same ground. App built in C++ with significant SQL component
-    
+
     Weston Books (2 years)
-    Built an inventory management and cash register program for a bookstore in golang. Program used a bar code reader 
+    Built an inventory management and cash register program for a bookstore in golang. Program used a bar code reader
     to read ISBN numbers from the bar codes and queried book API to auto fill most field when stocking books. Data stored
     in SQL database. Application produced PDF reports for inventory, sales and more.
-    
+
     WheresMyJob.com (3 years)
     Delivered an application that pulled data from jobs APIs and displayed them on a map, displaying full data when
     a job was selected by the user. Users filter jobs to not be overwhelmed. App written using python, pandas, plotly, dash,
     geopy, requests and postgresql database. AI integration helps users auto generate resumes from a set of skills and a
     selected job.
-    
+
     """
 
 
 def get_references() -> str:
     return """
-    Dr. Seikyung Jung (Long Time colleague and team member at Wheresmyjob, She can speak to my ability to work with team 
+    Dr. Seikyung Jung (Long Time colleague and team member at Wheresmyjob, She can speak to my ability to work with team
     members who go from peer to supervisor. She succeeded me as team lead.)
     sjung@bridgew.edu
 
@@ -140,10 +141,10 @@ def get_service() -> str:
     Meetup cohost:
     organized golang meetup for Providence RI. Arranged venue, organized speakers and worked with co-host and members
     to keep the meetup viable
-    
+
     K-12 outreach:
-    worked with local University on an initiative that brought middle school girls from a school that pulled 100% of its 
-    students from inner city residents of disadvantaged backgrounds to campus for a series of hands on seminars in STEM. 
+    worked with local University on an initiative that brought middle school girls from a school that pulled 100% of its
+    students from inner city residents of disadvantaged backgrounds to campus for a series of hands on seminars in STEM.
     The purpose was to both introduce these middle school students to the University, and get them to see themselves at
     the University, expanding opportunities.
     """
