@@ -11,5 +11,6 @@ def main():
     processData.add_rapid_api_job_search2_to_db("rapid_jobs2.json", cursor)
     close_db(conn)
 
+
 if __name__ == "__main__":
     main()
