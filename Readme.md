@@ -1,5 +1,11 @@
-# Prof Demo of Sprint 1
+# Prof Demo of Project 1
 ## Prof Santore
+
+## Sprint 2 directions: 
+
+* after adding the libraries in requirements.txt
+* run main.py to run sprint 2
+
 
 # To run
 
