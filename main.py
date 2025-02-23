@@ -17,9 +17,8 @@ def main():
     processData.add_rapid_api_job_search2_to_db("rapid_jobs2.json", cursor)
     # end consider removing.
     jobs_data = processData.get_jobs_from_db(cursor)
-    close_db(conn)
     qt_app = PySide6.QtWidgets.QApplication(sys.argv)
-    jobs_window = JobsWindow.JobsWindow(jobs_data)
+    jobs_window = JobsWindow.JobsWindow(jobs_data, conn, cursor)
     sys.exit(qt_app.exec())
 
 

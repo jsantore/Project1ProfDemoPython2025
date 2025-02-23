@@ -1,15 +1,21 @@
+import sqlite3
+
 from PySide6.QtCore import QRect
 from PySide6.QtWidgets import QWidget, QPushButton, QListWidget, QApplication, QListWidgetItem, QMessageBox, QLineEdit, \
     QTextEdit
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel
 
 from PySide6.QtGui import QTextCharFormat, QFont, QGuiApplication
+from DataBase import DBUtils
 
 
 class JobsWindow(QWidget):
-    def __init__(self, jobs_data):
+    def __init__(self, jobs_data:list[dict], conn:sqlite3.Connection,
+                 cursor: sqlite3.Cursor):
         super().__init__()
         self.jobs_data = jobs_data
+        self.db_connection = conn
+        self.cursor = cursor
         self.list_control = None
         self.job_title =None
         self.job_description =None
@@ -22,17 +28,30 @@ class JobsWindow(QWidget):
 
     def setup_window(self):
         self.setWindowTitle('Select a Job')
+        main_layout = QVBoxLayout()
         top_layout = QHBoxLayout()
         self.list_control = QListWidget()
         # setup the list control
         top_layout.addWidget(self.list_control)
         self.fill_job_list(self.jobs_data)
-        self.setLayout(top_layout)
+        main_layout.addLayout(top_layout)
+        self.setLayout(main_layout)
         # put together the more data section
         more_data_panel = QVBoxLayout()
         self.fill_more_data_panel(more_data_panel)
         top_layout.addLayout(more_data_panel)
         self.list_control.currentItemChanged.connect(self.show_full_job_data)
+        bottom_layout = QHBoxLayout()
+        button_font = QFont('Arial', 12, QFont.Weight.Bold)
+        enter_personal_info_button = QPushButton('Enter Personal Info')
+        enter_personal_info_button.clicked.connect(self.show_enter_personal_info)
+        enter_personal_info_button.setFont(button_font)
+        quit_button = QPushButton('Quit')
+        quit_button.setFont(button_font)
+        quit_button.clicked.connect(self.quit)
+        bottom_layout.addWidget(enter_personal_info_button)
+        bottom_layout.addWidget(quit_button)
+        main_layout.addLayout(bottom_layout)
         self.set_half_screen_size()
         self.show()
 
@@ -113,3 +132,10 @@ class JobsWindow(QWidget):
                 self.salary.setText(job['salary'])
                 self.link.setText(job['url'])
                 self.salary.setText(job['salary'])
+
+    def quit(self):
+        DBUtils.close_db(self.db_connection)
+        QApplication.instance().quit()
+
+    def show_enter_personal_info(self):
+        print("calling show enter personal info")
