@@ -1,33 +1,43 @@
 import sqlite3
 
 from PySide6.QtCore import QRect
-from PySide6.QtWidgets import QWidget, QPushButton, QListWidget, QApplication, QListWidgetItem, QMessageBox, QLineEdit, \
-    QTextEdit
+from PySide6.QtWidgets import (
+    QWidget,
+    QPushButton,
+    QListWidget,
+    QApplication,
+    QListWidgetItem,
+    QMessageBox,
+    QLineEdit,
+    QTextEdit,
+)
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel
 
 from PySide6.QtGui import QTextCharFormat, QFont, QGuiApplication
 from DataBase import DBUtils
+from GUI.EnterPersonalDataWindow import PersonalDataWindow
 
 
 class JobsWindow(QWidget):
-    def __init__(self, jobs_data:list[dict], conn:sqlite3.Connection,
-                 cursor: sqlite3.Cursor):
+    def __init__(
+        self, jobs_data: list[dict], conn: sqlite3.Connection, cursor: sqlite3.Cursor
+    ):
         super().__init__()
         self.jobs_data = jobs_data
         self.db_connection = conn
         self.cursor = cursor
         self.list_control = None
-        self.job_title =None
-        self.job_description =None
+        self.job_title = None
+        self.job_description = None
         self.company = None
         self.job_location = None
-        self.full_time =None
+        self.full_time = None
         self.salary = None
         self.link = None
         self.setup_window()
 
     def setup_window(self):
-        self.setWindowTitle('Select a Job')
+        self.setWindowTitle("Select a Job")
         main_layout = QVBoxLayout()
         top_layout = QHBoxLayout()
         self.list_control = QListWidget()
@@ -42,11 +52,11 @@ class JobsWindow(QWidget):
         top_layout.addLayout(more_data_panel)
         self.list_control.currentItemChanged.connect(self.show_full_job_data)
         bottom_layout = QHBoxLayout()
-        button_font = QFont('Arial', 12, QFont.Weight.Bold)
-        enter_personal_info_button = QPushButton('Enter Personal Info')
+        button_font = QFont("Arial", 12, QFont.Weight.Bold)
+        enter_personal_info_button = QPushButton("Enter Personal Info")
         enter_personal_info_button.clicked.connect(self.show_enter_personal_info)
         enter_personal_info_button.setFont(button_font)
-        quit_button = QPushButton('Quit')
+        quit_button = QPushButton("Quit")
         quit_button.setFont(button_font)
         quit_button.clicked.connect(self.quit)
         bottom_layout.addWidget(enter_personal_info_button)
@@ -56,33 +66,33 @@ class JobsWindow(QWidget):
         self.show()
 
     def fill_more_data_panel(self, panel: QVBoxLayout):
-        label_font = QFont('Arial', 12, QFont.Weight.Bold)
-        company_label = QLabel('Company:')
+        label_font = QFont("Arial", 12, QFont.Weight.Bold)
+        company_label = QLabel("Company:")
         company_label.setFont(label_font)
         panel.addWidget(company_label)
         self.company = QLineEdit()
         panel.addWidget(self.company)
-        panel.addWidget(QLabel('Job Title:'))
+        panel.addWidget(QLabel("Job Title:"))
         self.job_title = QLineEdit()
         panel.addWidget(self.job_title)
-        panel.addWidget(QLabel('Job Description:'))
+        panel.addWidget(QLabel("Job Description:"))
         self.job_description = QTextEdit()
         panel.addWidget(self.job_description)
-        panel.addWidget(QLabel('Job Location:'))
+        panel.addWidget(QLabel("Job Location:"))
         self.job_location = QLineEdit()
         panel.addWidget(self.job_location)
-        panel.addWidget(QLabel('Full Time:'))
+        panel.addWidget(QLabel("Full Time:"))
         self.full_time = QLineEdit()
         panel.addWidget(self.full_time)
-        full_time_label = QLabel('Full Time/Part Time:')
+        full_time_label = QLabel("Full Time/Part Time:")
         panel.addWidget(full_time_label)
         self.full_time = QLineEdit()
         panel.addWidget(self.full_time)
-        salary_label = QLabel('Salary:')
+        salary_label = QLabel("Salary:")
         panel.addWidget(salary_label)
         self.salary = QLineEdit()
         panel.addWidget(self.salary)
-        link_label = QLabel('Job HyperLink:')
+        link_label = QLabel("Job HyperLink:")
         panel.addWidget(link_label)
         self.link = QLineEdit()
         panel.addWidget(self.link)
@@ -110,32 +120,36 @@ class JobsWindow(QWidget):
         available_geometry = screen.availableGeometry()
         width = available_geometry.width()
         height = available_geometry.height()
-        self.setGeometry(QRect(width//10, height//10,
-                               width // 2, (height//3)*2)) # Set size to half width, 2/3 height, positioned just off top-left
+        self.setGeometry(
+            QRect(width // 10, height // 10, width // 2, (height // 3) * 2)
+        )  # Set size to half width, 2/3 height, positioned just off top-left
 
-    def fill_job_list(self, data_to_show:list):  # allow list to be filtered in sprint4
+    def fill_job_list(self, data_to_show: list):  # allow list to be filtered in sprint4
         for job in data_to_show:
             job_text_for_list = f"{job['company_name']} : {job['job_title']}"
-            item = QListWidgetItem(job_text_for_list, listview = self.list_control)
-            item.setData(1, job['job_id'])
+            item = QListWidgetItem(job_text_for_list, listview=self.list_control)
+            item.setData(1, job["job_id"])
 
-    def show_full_job_data(self, current : QListWidgetItem, previous: QListWidgetItem):
-        selected_data = current.data(1)  # the data function has a 'role' I added the job_id as role 1, visible is role 0
+    def show_full_job_data(self, current: QListWidgetItem, previous: QListWidgetItem):
+        selected_data = current.data(
+            1
+        )  # the data function has a 'role' I added the job_id as role 1, visible is role 0
         print(selected_data)
         for job in self.jobs_data:
-            if job['job_id'] == selected_data:
-                self.job_title.setText(job['job_title'])
-                self.job_description.setText(job['job_description'])
-                self.company.setText(job['company_name'])
-                self.job_location.setText(job['location'])
-                self.full_time.setText(job['full_time'])
-                self.salary.setText(job['salary'])
-                self.link.setText(job['url'])
-                self.salary.setText(job['salary'])
+            if job["job_id"] == selected_data:
+                self.job_title.setText(job["job_title"])
+                self.job_description.setText(job["job_description"])
+                self.company.setText(job["company_name"])
+                self.job_location.setText(job["location"])
+                self.full_time.setText(job["full_time"])
+                self.salary.setText(job["salary"])
+                self.link.setText(job["url"])
+                self.salary.setText(job["salary"])
 
     def quit(self):
         DBUtils.close_db(self.db_connection)
         QApplication.instance().quit()
 
     def show_enter_personal_info(self):
-        print("calling show enter personal info")
+        self.pop_up = PersonalDataWindow(self.cursor)
+        self.pop_up.show()

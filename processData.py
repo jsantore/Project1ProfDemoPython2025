@@ -56,26 +56,27 @@ def add_rapid_results_to_db(file_name: str, cursor: sqlite3.Cursor):
             )
             cursor.execute(insert_statement, job_tuple)
 
-def get_jobs_from_db(cursor: sqlite3.Cursor)-> list[dict]:
-    select_statement = '''SELECT job_id, created_at, updated_at, job_title, job_description, seniority, full_time,
-                location, company_name, salary, country, url, applicants_count FROM jobs_listings'''
+
+def get_jobs_from_db(cursor: sqlite3.Cursor) -> list[dict]:
+    select_statement = """SELECT job_id, created_at, updated_at, job_title, job_description, seniority, full_time,
+                location, company_name, salary, country, url, applicants_count FROM jobs_listings"""
     cursor.execute(select_statement)
     results = cursor.fetchall()
     jobs_listings = []
     for result in results:
         job_data = {}
-        job_data['job_id'] = result[0]
-        job_data['created_at'] = result[1]
-        job_data['updated_at'] = result[2]
-        job_data['job_title'] = result[3]
-        job_data['job_description'] = result[4]
-        job_data['seniority'] = result[5]
-        job_data['full_time'] = result[6]
-        job_data['location'] = result[7]
-        job_data['company_name'] = result[8]
-        job_data['salary'] = result[9]
-        job_data['country'] = result[10]
-        job_data['url'] = result[11]
-        job_data['applicants_count'] = result[12]
+        job_data["job_id"] = result[0]
+        job_data["created_at"] = result[1]
+        job_data["updated_at"] = result[2]
+        job_data["job_title"] = result[3]
+        job_data["job_description"] = result[4]
+        job_data["seniority"] = result[5]
+        job_data["full_time"] = result[6]
+        job_data["location"] = result[7]
+        job_data["company_name"] = result[8]
+        job_data["salary"] = result[9]
+        job_data["country"] = result[10]
+        job_data["url"] = result[11]
+        job_data["applicants_count"] = result[12]
         jobs_listings.append(job_data)
     return jobs_listings

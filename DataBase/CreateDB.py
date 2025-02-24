@@ -32,6 +32,23 @@ def add_locations_Table(cursor: sqlite3.Cursor):
     )
 
 
+def add_personal_info_Table(cursor: sqlite3.Cursor):
+    cursor.execute(
+        """CREATE TABLE IF NOT EXISTS personal_info(
+    userID TEXT PRIMARY KEY,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    name TEXT NOT NULL,
+    github TEXT,
+    other_link TEXT,
+    projects TEXT,
+    classes TEXT,
+    other TEXT
+    );
+    """
+    )
+
+
 def main():
     conn, cursor = DataBase.DBUtils.open_db("Data/JobsAppDB.sqlite3")
     createDB(cursor)
