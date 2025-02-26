@@ -7,13 +7,12 @@ from PySide6.QtWidgets import (
     QListWidget,
     QApplication,
     QListWidgetItem,
-    QMessageBox,
     QLineEdit,
     QTextEdit,
 )
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel
 
-from PySide6.QtGui import QTextCharFormat, QFont, QGuiApplication
+from PySide6.QtGui import QFont, QGuiApplication
 from DataBase import DBUtils
 from GUI.EnterPersonalDataWindow import PersonalDataWindow
 
@@ -63,7 +62,7 @@ class JobsWindow(QWidget):
         bottom_layout.addWidget(quit_button)
         main_layout.addLayout(bottom_layout)
         self.set_half_screen_size()
-        self.show()
+
 
     def fill_more_data_panel(self, panel: QVBoxLayout):
         label_font = QFont("Arial", 12, QFont.Weight.Bold)

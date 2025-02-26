@@ -1,5 +1,5 @@
 from DataBase.CreateDB import createDB, add_personal_info_Table
-from DataBase.DBUtils import open_db, close_db
+from DataBase.DBUtils import open_db
 import processData
 from os import path
 import PySide6
@@ -18,6 +18,7 @@ def main():
     jobs_data = processData.get_jobs_from_db(cursor)
     qt_app = PySide6.QtWidgets.QApplication(sys.argv)
     jobs_window = JobsWindow.JobsWindow(jobs_data, conn, cursor)
+    jobs_window.show()
     sys.exit(qt_app.exec())
 
 
