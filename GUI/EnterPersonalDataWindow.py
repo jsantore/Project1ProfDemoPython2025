@@ -9,7 +9,7 @@ class PersonalDataWindow(QWidget):
     def __init__(self, cursor: sqlite3.Cursor):
         super().__init__()
         self.cursor = cursor
-        self.user_name = None
+        self.user_name: QLineEdit = None
         self.user_email = None
         self.phone = None
         self.name = None
@@ -52,6 +52,7 @@ class PersonalDataWindow(QWidget):
         main_layout.addWidget(self.other_info)
         bottom_row = QHBoxLayout()
         save_button = QPushButton("Save")
+        save_button.clicked.connect(self.save)
         back_button = QPushButton("Back")
         back_button.clicked.connect(self.back)
         bottom_row.addWidget(save_button)
@@ -76,3 +77,20 @@ class PersonalDataWindow(QWidget):
             QRect(width // 10, height // 10, width // 4, (height // 3) * 2)
         )  # Set size to quarter width, 2/3 height, positioned just off top-left
 
+
+    def save(self):
+        profile_id = self.user_name.text()
+        user_email = self.user_email.text()
+        phone = self.phone.text()
+        name = self.name.text()
+        github = self.github.text()
+        other_link = self.other_link.text()
+        projects = self.projects.toPlainText()
+        classes = self.classes.toPlainText()
+        other_info = self.other_info.toPlainText()
+        data_to_insert = (profile_id, user_email, phone, name, github, other_link, projects, classes,
+                          other_info)
+        insert_statement = """INSERT or IGNORE into personal_info
+         (userID, email, phone, name, github, other_link, projects, classes, other)
+         VALUES(?,?,?,?,?,?,?,?,?)"""
+        self.cursor.execute(insert_statement, data_to_insert)
