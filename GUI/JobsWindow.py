@@ -63,7 +63,6 @@ class JobsWindow(QWidget):
         main_layout.addLayout(bottom_layout)
         self.set_half_screen_size()
 
-
     def fill_more_data_panel(self, panel: QVBoxLayout):
         label_font = QFont("Arial", 12, QFont.Weight.Bold)
         company_label = QLabel("Company:")
