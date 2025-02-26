@@ -3,6 +3,7 @@ import os
 import DataBase.CreateDB
 import DataBase.DBUtils
 import processData
+from GUI.JobsWindow import get_complete_job_data
 
 DB_FILE = "Test.db"
 JSON_FILE = "Test.json"
@@ -91,6 +92,7 @@ def test_load_job_data():
     assert (
         result[-1][3] == test_data[-1]["title"]
     )  # I picked the title as the data item I am assuring is correct
+    DataBase.DBUtils.close_db(conn)
 
 
 def make_test_json_file():
@@ -104,3 +106,15 @@ def make_test_json_file():
         for data in test_data:
             json.dump(data, out_file)
             out_file.write("\n")
+
+
+def test_get_full_data():
+    conn, cursor = DataBase.DBUtils.open_db(DB_FILE)
+    jobs_data = processData.get_jobs_from_db(cursor)
+    result = get_complete_job_data(jobs_data, "34fvsdfy6df5676546")
+    assert result["full_time"] == "fulltime"
+    assert result["job_title"] == "Super Duper Dev"
+    assert (
+        result["salary"]
+        == f"{test_data[1].get('min_amount')} - {test_data[1].get('max_amount')}"
+    )
