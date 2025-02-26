@@ -2,7 +2,16 @@ import sqlite3
 
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QGuiApplication
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QLineEdit, QComboBox, QTextEdit, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QVBoxLayout,
+    QLineEdit,
+    QComboBox,
+    QTextEdit,
+    QPushButton,
+    QHBoxLayout,
+)
 
 
 class PersonalDataWindow(QWidget):
@@ -61,8 +70,6 @@ class PersonalDataWindow(QWidget):
         self.set_size()
         self.setLayout(main_layout)
 
-
-
     def back(self):
         self.close()
 
@@ -77,7 +84,6 @@ class PersonalDataWindow(QWidget):
             QRect(width // 10, height // 10, width // 4, (height // 3) * 2)
         )  # Set size to quarter width, 2/3 height, positioned just off top-left
 
-
     def save(self):
         profile_id = self.user_name.text()
         user_email = self.user_email.text()
@@ -88,8 +94,17 @@ class PersonalDataWindow(QWidget):
         projects = self.projects.toPlainText()
         classes = self.classes.toPlainText()
         other_info = self.other_info.toPlainText()
-        data_to_insert = (profile_id, user_email, phone, name, github, other_link, projects, classes,
-                          other_info)
+        data_to_insert = (
+            profile_id,
+            user_email,
+            phone,
+            name,
+            github,
+            other_link,
+            projects,
+            classes,
+            other_info,
+        )
         insert_statement = """INSERT or IGNORE into personal_info
          (userID, email, phone, name, github, other_link, projects, classes, other)
          VALUES(?,?,?,?,?,?,?,?,?)"""
