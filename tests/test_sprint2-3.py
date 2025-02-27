@@ -126,6 +126,7 @@ def test_get_full_data():
 def test_save_personal_data():
     conn, cursor = DataBase.DBUtils.open_db(DB_FILE)
     app = QApplication([])
+    app.setApplicationName("test")
     mock_window = GUI.EnterPersonalDataWindow.PersonalDataWindow(cursor)
     mock_window.user_name.setText("Professor_Test")
     mock_window.user_email.setText("ptest@bridgew.edu")
@@ -164,7 +165,7 @@ def test_save_personal_data():
         Operating Systems
         Robotics
         Natural Language Processing
-        Linguistics 
+        Linguistics
         Compilers
         """
     )
@@ -172,7 +173,7 @@ def test_save_personal_data():
     # calling function under test!!
     GUI.EnterPersonalDataWindow.save(mock_window, cursor)
     cursor.execute(
-        """select github, projects, classes, name from personal_info 
+        """select github, projects, classes, name from personal_info
     WHERE userID == ?""",
         (mock_window.user_name.text(),),
     )
