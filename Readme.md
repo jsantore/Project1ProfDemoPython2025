@@ -1,6 +1,13 @@
 # Prof Demo of Project 1
 ## Prof Santore
 
+
+## Sprint3 Directions:
+* make a folder named Data
+* run main.py to
+
+this will run the database creation work, and then add the data, then run sprint3 GUI
+
 ## Sprint 2 directions: 
 
 * after adding the libraries in requirements.txt

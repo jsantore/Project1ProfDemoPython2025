@@ -20,6 +20,7 @@ def createDB(cursor: sqlite3.Cursor):
     url TEXT NOT NULL,
     applicants_count TEXT);"""
     )
+    add_personal_info_Table(cursor)
 
 
 def add_locations_Table(cursor: sqlite3.Cursor):

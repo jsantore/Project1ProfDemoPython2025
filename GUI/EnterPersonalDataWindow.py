@@ -23,7 +23,7 @@ class PersonalDataWindow(QWidget):
         self.name = None
         self.github = None
         self.other_link = None
-        self.projects = None
+        self.projects: QTextEdit = None
         self.classes = None
         self.other_info = None
         self.setupWindow()
@@ -84,27 +84,31 @@ class PersonalDataWindow(QWidget):
         )  # Set size to quarter width, 2/3 height, positioned just off top-left
 
     def save(self):
-        profile_id = self.user_name.text()
-        user_email = self.user_email.text()
-        phone = self.phone.text()
-        name = self.name.text()
-        github = self.github.text()
-        other_link = self.other_link.text()
-        projects = self.projects.toPlainText()
-        classes = self.classes.toPlainText()
-        other_info = self.other_info.toPlainText()
-        data_to_insert = (
-            profile_id,
-            user_email,
-            phone,
-            name,
-            github,
-            other_link,
-            projects,
-            classes,
-            other_info,
-        )
-        insert_statement = """INSERT or IGNORE into personal_info
+        save(self, self.cursor)
+
+
+def save(window, cursor):
+    profile_id = window.user_name.text()
+    user_email = window.user_email.text()
+    phone = window.phone.text()
+    name = window.name.text()
+    github = window.github.text()
+    other_link = window.other_link.text()
+    projects = window.projects.toPlainText()
+    classes = window.classes.toPlainText()
+    other_info = window.other_info.toPlainText()
+    data_to_insert = (
+        profile_id,
+        user_email,
+        phone,
+        name,
+        github,
+        other_link,
+        projects,
+        classes,
+        other_info,
+    )
+    insert_statement = """INSERT or IGNORE into personal_info
          (userID, email, phone, name, github, other_link, projects, classes, other)
          VALUES(?,?,?,?,?,?,?,?,?)"""
-        self.cursor.execute(insert_statement, data_to_insert)
+    cursor.execute(insert_statement, data_to_insert)

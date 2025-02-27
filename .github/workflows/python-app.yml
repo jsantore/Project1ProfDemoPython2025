@@ -37,4 +37,5 @@ jobs:
         # we will want tests for sprint2, but not yet
     - name: Test with pytest
       run: |
+        export QT_QPA_PLATFORM=offscreen
         python -m pytest tests/*.py

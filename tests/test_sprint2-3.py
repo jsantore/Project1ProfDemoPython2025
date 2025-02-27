@@ -2,8 +2,10 @@ import json
 import os
 import DataBase.CreateDB
 import DataBase.DBUtils
+import GUI.EnterPersonalDataWindow
 import processData
 from GUI.JobsWindow import get_complete_job_data
+from PySide6.QtWidgets import QApplication
 
 DB_FILE = "Test.db"
 JSON_FILE = "Test.json"
@@ -111,6 +113,7 @@ def make_test_json_file():
 def test_get_full_data():
     conn, cursor = DataBase.DBUtils.open_db(DB_FILE)
     jobs_data = processData.get_jobs_from_db(cursor)
+    DataBase.DBUtils.close_db(conn)
     result = get_complete_job_data(jobs_data, "34fvsdfy6df5676546")
     assert result["full_time"] == "fulltime"
     assert result["job_title"] == "Super Duper Dev"
@@ -118,3 +121,64 @@ def test_get_full_data():
         result["salary"]
         == f"{test_data[1].get('min_amount')} - {test_data[1].get('max_amount')}"
     )
+
+
+def test_save_personal_data():
+    conn, cursor = DataBase.DBUtils.open_db(DB_FILE)
+    app = QApplication([])
+    mock_window = GUI.EnterPersonalDataWindow.PersonalDataWindow(cursor)
+    mock_window.user_name.setText("Professor_Test")
+    mock_window.user_email.setText("ptest@bridgew.edu")
+    mock_window.phone.setText("508-531-2226")
+    mock_window.name.setText("Professor Test T. Fellow")
+    mock_window.github.setText("https://github.com/Professor_Test")
+    mock_window.other_link.setText("https://www.linkedin.com/in/professor-test")
+    mock_window.projects.setText(
+        """
+    DownEast Technology (3 years)
+    team delivered an app for sales people to enter, track and synch full spectrum sales data, saving it both locally
+    in the sales persons device and synching it to the company so that nothing is lost and multiple sales people working
+    the same lead don't waste time covering the same ground. App built in C++ with significant SQL component
+
+    Weston Books (2 years)
+    Built an inventory management and cash register program for a bookstore in golang. Program used a bar code reader
+    to read ISBN numbers from the bar codes and queried book API to auto fill most field when stocking books. Data stored
+    in SQL database. Application produced PDF reports for inventory, sales and more.
+
+    WheresMyJob.com (3 years)
+    Delivered an application that pulled data from jobs APIs and displayed them on a map, displaying full data when
+    a job was selected by the user. Users filter jobs to not be overwhelmed. App written using python, pandas, plotly, dash,
+    geopy, requests and postgresql database. AI integration helps users auto generate resumes from a set of skills and a
+    selected job.
+
+    """
+    )
+    mock_window.classes.setText(
+        """
+        AI
+        Theory of Computation
+        Cognitive Science
+        Algorithms
+        Software Engineering
+        Comparative Programming Languages
+        Operating Systems
+        Robotics
+        Natural Language Processing
+        Linguistics 
+        Compilers
+        """
+    )
+    mock_window.other_info.setText("")
+    # calling function under test!!
+    GUI.EnterPersonalDataWindow.save(mock_window, cursor)
+    cursor.execute(
+        """select github, projects, classes, name from personal_info 
+    WHERE userID == ?""",
+        (mock_window.user_name.text(),),
+    )
+    result = cursor.fetchone()
+    assert result[0] == mock_window.github.text()
+    assert result[1] == mock_window.projects.toPlainText()
+    assert result[2] == mock_window.classes.toPlainText()
+    assert result[3] == mock_window.name.text()
+    DataBase.DBUtils.close_db(conn)
